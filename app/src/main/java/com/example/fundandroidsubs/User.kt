@@ -1,7 +1,7 @@
 package com.example.fundandroidsubs
 
 import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class User(
@@ -12,5 +12,5 @@ data class User(
     var company: String = "",
     var followers: Int = 0,
     var following: Int = 0,
-    var avatar: String = ""
+    var avatar: Int = 0
 ) : Parcelable

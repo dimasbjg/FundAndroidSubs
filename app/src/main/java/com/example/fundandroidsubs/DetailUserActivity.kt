@@ -4,10 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.StringRes
 import com.bumptech.glide.Glide
 import com.example.fundandroidsubs.databinding.ActivityDetailUserBinding
-import com.google.android.material.tabs.TabLayoutMediator
 
 class DetailUserActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -17,12 +15,6 @@ class DetailUserActivity : AppCompatActivity(), View.OnClickListener {
 
     companion object {
         const val EXTRA_USER = "extra_user"
-
-        @StringRes
-        private val TAB_TITLE = intArrayOf(
-            R.string.tab_text_1,
-            R.string.tab_text_2
-        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,26 +22,33 @@ class DetailUserActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityDetailUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val sectionPagerAdapter = SectionPagerAdapter(this)
-        binding.viewPager.adapter = sectionPagerAdapter
-        TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
-            tab.text = resources.getString(TAB_TITLE[position])
-        }.attach()
+        val user = intent.getParcelableExtra<User>(EXTRA_USER) as User
+        supportActionBar?.title = user.name
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
+        binding.username.text = user.username
+        Glide.with(this)
+            .load(user.avatar)
+            .into(binding.avaUser)
+        binding.name.text = user.name
+        binding.location.text = "Location : " + user.location
+        binding.company.text = "Company : " + user.company
+        binding.repository.text = "Repository : " + user.repository
+        binding.following.text = "Following : " + user.following
+        binding.follower.text = "Followers : " + user.followers
 
-        supportActionBar?.elevation = 0f
-
-//        val user = intent.getParcelableExtra<User>(EXTRA_USER) as User
-//        supportActionBar?.title = user.name
-//        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
-//        binding.username.text = user.username
-//        Glide.with(this)
-//            .load(user.avatar)
-//            .into(binding.avaUser)
+        binding.btShare.setOnClickListener(this)
 
 
+        shareContent = "Username github : ${user.username} \nNama : ${user.name}\nRepository : ${user.repository}" +
+                "\nCompany : ${user.company}"
     }
 
-    override fun onClick(v: View) {
+    override fun onClick(p0: View?) {
+        val intent = Intent()
 
+        intent.action = Intent.ACTION_SEND
+        intent.putExtra(Intent.EXTRA_TEXT, shareContent)
+        intent.type = "text/plain"
+        startActivity(Intent.createChooser(intent, "Bagikan ke : "))
     }
 }

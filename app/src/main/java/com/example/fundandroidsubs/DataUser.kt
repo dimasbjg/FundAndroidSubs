@@ -120,7 +120,7 @@ object DataUser {
                 user.company = companies[position]
                 user.followers = followers[position]
                 user.following = followings[position]
-//                user.avatar = avatars[position]
+                user.avatar = avatars[position]
 
                 list.add(user)
             }

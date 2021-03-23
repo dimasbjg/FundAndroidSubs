@@ -11,17 +11,15 @@
         android:theme="@style/Theme.FundAndroidSubs">
         <activity
             android:name=".DetailUserActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".SplashActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-
         </activity>
         <activity android:name=".MainActivity" />
     </application>
