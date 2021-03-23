@@ -8,31 +8,37 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.fundandroidsubs.databinding.ItemUserBinding
 
-class ListUserAdapter(private val listUser: ArrayList<User>) :
-    RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
+class ListUserAdapter: RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
+
+    private val mData = ArrayList<User>()
+
+    fun setData(items: ArrayList<User>) {
+        mData.clear()
+        mData.addAll(items)
+        notifyDataSetChanged()
+    }
+
     inner class ListViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
         private val binding = ItemUserBinding.bind(itemView)
 
-        internal fun bind(user: User): User {
+        fun bind(user: User): User {
 
             binding.tvUsername.text = user.username
-            binding.tvName.text = user.name
             Glide.with(itemView.context)
                 .load(user.avatar)
                 .into(binding.imgUser)
-            val userParcel = User(
+            return return User(
                 user.username,
-                user.name,
-                user.location,
-                user.repository,
-                user.company,
-                user.followers,
-                user.following,
+//                user.name,
+//                user.location,
+//                user.repository,
+//                user.company,
+//                user.followers,
+//                user.following,
                 user.avatar
             )
-            return userParcel
         }
     }
 
@@ -43,20 +49,10 @@ class ListUserAdapter(private val listUser: ArrayList<User>) :
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        holder.bind(user = listUser[position])
-
-        val mContext = holder.itemView.context
-
-        val sendUser = holder.bind(user = listUser[position])
-
-        holder.itemView.setOnClickListener {
-            val intent = Intent(mContext, DetailUserActivity::class.java)
-            intent.putExtra(DetailUserActivity.EXTRA_USER, sendUser)
-            mContext.startActivity(intent)
-        }
+        holder.bind(mData[position])
     }
 
     override fun getItemCount(): Int {
-        return listUser.size
+        return mData.size
     }
 }
