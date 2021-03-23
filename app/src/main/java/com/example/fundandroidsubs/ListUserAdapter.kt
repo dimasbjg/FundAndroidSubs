@@ -31,12 +31,6 @@ class ListUserAdapter: RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
                 .into(binding.imgUser)
             return return User(
                 user.username,
-//                user.name,
-//                user.location,
-//                user.repository,
-//                user.company,
-//                user.followers,
-//                user.following,
                 user.avatar
             )
         }
@@ -50,6 +44,14 @@ class ListUserAdapter: RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.bind(mData[position])
+        val mContext = holder.itemView.context
+        val sendUser = holder.bind(user = mData[position])
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(mContext, DetailUserActivity::class.java)
+            intent.putExtra(DetailUserActivity.EXTRA_USER, sendUser)
+            mContext.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {

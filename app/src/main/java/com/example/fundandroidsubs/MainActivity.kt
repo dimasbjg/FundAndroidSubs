@@ -11,7 +11,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    //    private var list: ArrayList<User> = arrayListOf()
     private lateinit var adapter: ListUserAdapter
     private lateinit var mainViewModel: MainViewModel
 
@@ -46,21 +45,10 @@ class MainActivity : AppCompatActivity() {
                 showLoading(false)
             }
         })
-
-//        list.addAll(DataUser.listData)
-//        showRecyclerList()
-
     }
 
     private fun showLoading(state: Boolean) {
         if (state) binding.progressBar.visibility = View.VISIBLE
         else binding.progressBar.visibility = View.INVISIBLE
     }
-
-//    private fun showRecyclerList() {
-//        binding.rvUser.layoutManager = LinearLayoutManager(this)
-//        val listUserAdapter = ListUserAdapter(list)
-//        binding.rvUser.adapter = listUserAdapter
-//    }
-
 }

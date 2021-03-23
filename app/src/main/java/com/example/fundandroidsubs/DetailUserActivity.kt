@@ -1,19 +1,20 @@
 package com.example.fundandroidsubs
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import androidx.annotation.StringRes
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.fundandroidsubs.databinding.ActivityDetailUserBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
-class DetailUserActivity : AppCompatActivity(), View.OnClickListener {
+class DetailUserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailUserBinding
 
-    private lateinit var shareContent: String
+
+    private lateinit var mainViewModel: MainViewModel
+
 
     companion object {
         const val EXTRA_USER = "extra_user"
@@ -30,7 +31,31 @@ class DetailUserActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityDetailUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        mainViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        ).get(MainViewModel::class.java)
+
+        val user = intent.getParcelableExtra<User>(EXTRA_USER) as User
+
+        user.username?.let { mainViewModel.setUserDetail(it) }
+        mainViewModel.getDetailUser().observe(this, {
+            binding.apply {
+                Glide.with(this@DetailUserActivity)
+                    .load(it.avatar)
+                    .into(binding.avaUser)
+                supportActionBar?.title = it.name
+                username.text = it.username
+                name.text = it.name
+                ("Location : " + it.location).also { binding.location.text = it }
+                ("company : " + it.company).also { binding.company.text = it }
+                ("followers : " + it.followers).also { binding.follower.text = it }
+                ("following : " + it.following).also { binding.following.text = it }
+            }
+        })
+
         val sectionPagerAdapter = SectionPagerAdapter(this)
+        sectionPagerAdapter.username = user?.username
         binding.viewPager.adapter = sectionPagerAdapter
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
             tab.text = resources.getString(TAB_TITLE[position])
@@ -38,18 +63,8 @@ class DetailUserActivity : AppCompatActivity(), View.OnClickListener {
 
         supportActionBar?.elevation = 0f
 
-//        val user = intent.getParcelableExtra<User>(EXTRA_USER) as User
-//        supportActionBar?.title = user.name
-//        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
-//        binding.username.text = user.username
-//        Glide.with(this)
-//            .load(user.avatar)
-//            .into(binding.avaUser)
 
 
     }
 
-    override fun onClick(v: View) {
-
-    }
 }
