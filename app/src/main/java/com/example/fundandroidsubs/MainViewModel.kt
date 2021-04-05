@@ -21,7 +21,7 @@ class MainViewModel : ViewModel() {
     fun setUserDetail(user: String) {
         val url = "https://api.github.com/users/$user"
         val client = AsyncHttpClient()
-        client.addHeader("Authorization", "token d0fcc16d677ac5c4de4a1177cda19e336dbfdc11")
+        client.addHeader("Authorization", "token ${BuildConfig.API_TOKEN}")
         client.addHeader("User-Agent", "request")
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
@@ -32,15 +32,17 @@ class MainViewModel : ViewModel() {
                 try {
                     val result = String(responseBody)
                     val responseObject = JSONObject(result)
-                    val user = User()
-                    user.username = responseObject.getString("login")
-                    user.name = responseObject.getString("name")
-                    user.avatar = responseObject.getString("avatar_url")
-                    user.company = responseObject.getString("company")
-                    user.location = responseObject.getString("location")
-                    user.repository = responseObject.getInt("public_repos")
-                    user.following = responseObject.getInt("following")
-                    user.followers = responseObject.getInt("followers")
+                    val user = User(
+                        username = responseObject.getString("login"),
+                        name = responseObject.getString("name"),
+                        avatar = responseObject . getString ("avatar_url"),
+                        company = responseObject . getString ("company"),
+                        location = responseObject . getString ("location"),
+                        repository = responseObject . getInt ("public_repos"),
+                        following = responseObject . getInt ("following"),
+                        followers = responseObject . getInt ("followers")
+                    )
+
                     listDetailUser.postValue(user)
                 } catch (e: Exception) {
                     Log.d("onSuccess fail", e.message.toString())
@@ -63,7 +65,7 @@ class MainViewModel : ViewModel() {
         val listItems = ArrayList<User>()
         val client = AsyncHttpClient()
         val url = "https://api.github.com/users/$username/following"
-        client.addHeader("Authorization", "token d0fcc16d677ac5c4de4a1177cda19e336dbfdc11")
+        client.addHeader("Authorization", "token ${BuildConfig.API_TOKEN}")
         client.addHeader("User-Agent", "request")
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
@@ -104,7 +106,7 @@ class MainViewModel : ViewModel() {
         val listItems = ArrayList<User>()
         val client = AsyncHttpClient()
         val url = "https://api.github.com/users/$username/followers"
-        client.addHeader("Authorization", "token d0fcc16d677ac5c4de4a1177cda19e336dbfdc11")
+        client.addHeader("Authorization", "token ${BuildConfig.API_TOKEN}")
         client.addHeader("User-Agent", "request")
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
@@ -142,11 +144,11 @@ class MainViewModel : ViewModel() {
     }
 
 
-    fun setUser(usersearch: String) {
+    fun setUser(userSearch: String) {
         val listItems = ArrayList<User>()
         val client = AsyncHttpClient()
-        val url = "https://api.github.com/search/users?q=$usersearch"
-        client.addHeader("Authorization", "token d0fcc16d677ac5c4de4a1177cda19e336dbfdc11")
+        val url = "https://api.github.com/search/users?q=$userSearch"
+        client.addHeader("Authorization", "token ${BuildConfig.API_TOKEN}")
         client.addHeader("User-Agent", "request")
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
@@ -194,11 +196,11 @@ class MainViewModel : ViewModel() {
         return listDetailUser
     }
 
-    fun getFollower() : LiveData<ArrayList<User>>{
+    fun getFollower(): LiveData<ArrayList<User>> {
         return listUsers
     }
 
-    fun getFollowing() : LiveData<ArrayList<User>>{
+    fun getFollowing(): LiveData<ArrayList<User>> {
         return listUsers
     }
 

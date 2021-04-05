@@ -1,17 +1,23 @@
 package com.example.fundandroidsubs
 
+import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.fundandroidsubs.databinding.ActivityDetailUserBinding
+import com.example.fundandroidsubs.db.DatabaseHelper
+import com.example.fundandroidsubs.db.UserHelper
 import com.google.android.material.tabs.TabLayoutMediator
 
 class DetailUserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailUserBinding
 
+    private var isFavorites: Boolean = false
+
+    private lateinit var userHelper: UserHelper
 
     private lateinit var mainViewModel: MainViewModel
 
@@ -38,7 +44,7 @@ class DetailUserActivity : AppCompatActivity() {
 
         val user = intent.getParcelableExtra<User>(EXTRA_USER) as User
 
-        user.username?.let { mainViewModel.setUserDetail(it) }
+        user.username.let { mainViewModel.setUserDetail(it) }
         mainViewModel.getDetailUser().observe(this, {
             binding.apply {
                 Glide.with(this@DetailUserActivity)
@@ -55,7 +61,7 @@ class DetailUserActivity : AppCompatActivity() {
         })
 
         val sectionPagerAdapter = SectionPagerAdapter(this)
-        sectionPagerAdapter.username = user?.username
+        sectionPagerAdapter.username = user.username
         binding.viewPager.adapter = sectionPagerAdapter
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
             tab.text = resources.getString(TAB_TITLE[position])
@@ -63,8 +69,33 @@ class DetailUserActivity : AppCompatActivity() {
 
         supportActionBar?.elevation = 0f
 
+        //check if favorite
+        val cursor: Cursor = userHelper.queryByUsername(user.username)
+        if (cursor.moveToNext()) {
+            isFavorites = true
+            setStatusFavorites(true)
+        }
+
+        //set/unset favorites
+        binding.fab.setOnClickListener {
+            isFavorites = !isFavorites
+
+            //insert query here
 
 
+
+            setStatusFavorites(isFavorites)
+        }
+
+
+    }
+
+    private fun setStatusFavorites(status: Boolean) {
+        if (status) {
+            //set to favorite icon
+        } else {
+            //set to unfovarite icon
+        }
     }
 
 }
