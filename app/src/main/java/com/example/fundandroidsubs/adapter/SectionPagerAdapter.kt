@@ -1,8 +1,10 @@
-package com.example.fundandroidsubs
+package com.example.fundandroidsubs.adapter
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.fundandroidsubs.FollowerFragment
+import com.example.fundandroidsubs.FollowingFragment
 
 class SectionPagerAdapter(activity: AppCompatActivity): FragmentStateAdapter(activity) {
 

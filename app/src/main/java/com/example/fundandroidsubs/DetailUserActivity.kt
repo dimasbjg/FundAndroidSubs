@@ -1,26 +1,33 @@
 package com.example.fundandroidsubs
 
+import android.content.ContentValues
+import android.content.Intent
 import android.database.Cursor
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.example.fundandroidsubs.adapter.SectionPagerAdapter
 import com.example.fundandroidsubs.databinding.ActivityDetailUserBinding
-import com.example.fundandroidsubs.db.DatabaseHelper
+import com.example.fundandroidsubs.db.DatabaseContract
+import com.example.fundandroidsubs.db.DatabaseContract.UserColumns.Companion.CONTENT_URI
 import com.example.fundandroidsubs.db.UserHelper
+import com.example.fundandroidsubs.entity.User
+import com.example.fundandroidsubs.helper.MappingHelper
 import com.google.android.material.tabs.TabLayoutMediator
 
 class DetailUserActivity : AppCompatActivity() {
 
+
     private lateinit var binding: ActivityDetailUserBinding
-
     private var isFavorites: Boolean = false
-
     private lateinit var userHelper: UserHelper
-
     private lateinit var mainViewModel: MainViewModel
-
+    private lateinit var uriWithUsername: Uri
 
     companion object {
         const val EXTRA_USER = "extra_user"
@@ -42,7 +49,7 @@ class DetailUserActivity : AppCompatActivity() {
             ViewModelProvider.NewInstanceFactory()
         ).get(MainViewModel::class.java)
 
-        val user = intent.getParcelableExtra<User>(EXTRA_USER) as User
+        var user = intent.getParcelableExtra<User>(EXTRA_USER) as User
 
         user.username.let { mainViewModel.setUserDetail(it) }
         mainViewModel.getDetailUser().observe(this, {
@@ -69,20 +76,48 @@ class DetailUserActivity : AppCompatActivity() {
 
         supportActionBar?.elevation = 0f
 
+
+
+
         //check if favorite
+
+        userHelper = UserHelper.getnInstance(applicationContext)
+        userHelper.open()
+
         val cursor: Cursor = userHelper.queryByUsername(user.username)
+
         if (cursor.moveToNext()) {
             isFavorites = true
             setStatusFavorites(true)
         }
 
+        uriWithUsername = Uri.parse(CONTENT_URI.toString() + "/" + user.username)
+        Log.d("Uri", uriWithUsername.toString())
+
+
+
         //set/unset favorites
         binding.fab.setOnClickListener {
+
+
             isFavorites = !isFavorites
-
             //insert query here
-
-
+            if (isFavorites) {
+                //insert favorites
+                val values = ContentValues()
+                user.username.let { mainViewModel.setUserDetail(it) }
+                mainViewModel.getDetailUser().observe(this, {
+                    values.put(DatabaseContract.UserColumns.COLUMN_NAME_USERNAME, it.username)
+                    values.put(DatabaseContract.UserColumns.COLUMN_NAME_AVATAR_URL, it.avatar)
+                })
+                contentResolver.insert(CONTENT_URI, values)
+                uriWithUsername = Uri.parse(CONTENT_URI.toString() + "/" + user.username)
+                Toast.makeText(this, "Add to Favorites", Toast.LENGTH_SHORT).show()
+            } else {
+                //delete favorites
+                contentResolver.delete(uriWithUsername, null, null)
+                Toast.makeText(this, "Remove from Favorites", Toast.LENGTH_SHORT).show()
+            }
 
             setStatusFavorites(isFavorites)
         }
@@ -93,9 +128,22 @@ class DetailUserActivity : AppCompatActivity() {
     private fun setStatusFavorites(status: Boolean) {
         if (status) {
             //set to favorite icon
+            binding.fab.setImageResource(R.drawable.ic_baseline_favorite_black)
         } else {
             //set to unfovarite icon
+            binding.fab.setImageResource(R.drawable.ic_baseline_favorite_border_24)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        userHelper.close()
+    }
+
+    override fun onBackPressed() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
 }

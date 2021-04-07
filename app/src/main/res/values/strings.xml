@@ -15,5 +15,8 @@
     <string name="follower">follower</string>
     <string name="following">following</string>
     <string name="favorite_button">favorite button</string>
+    <string name="home">Home</string>
+    <string name="my_favorites">My Favorites</string>
+    <string name="setting">Setting</string>
 
 </resources>

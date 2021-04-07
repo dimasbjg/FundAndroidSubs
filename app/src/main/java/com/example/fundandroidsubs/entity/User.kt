@@ -1,4 +1,4 @@
-package com.example.fundandroidsubs
+package com.example.fundandroidsubs.entity
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

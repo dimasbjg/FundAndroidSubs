@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.fundandroidsubs.entity.User
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
@@ -35,12 +36,12 @@ class MainViewModel : ViewModel() {
                     val user = User(
                         username = responseObject.getString("login"),
                         name = responseObject.getString("name"),
-                        avatar = responseObject . getString ("avatar_url"),
-                        company = responseObject . getString ("company"),
-                        location = responseObject . getString ("location"),
-                        repository = responseObject . getInt ("public_repos"),
-                        following = responseObject . getInt ("following"),
-                        followers = responseObject . getInt ("followers")
+                        avatar = responseObject.getString("avatar_url"),
+                        company = responseObject.getString("company"),
+                        location = responseObject.getString("location"),
+                        repository = responseObject.getInt("public_repos"),
+                        following = responseObject.getInt("following"),
+                        followers = responseObject.getInt("followers")
                     )
 
                     listDetailUser.postValue(user)

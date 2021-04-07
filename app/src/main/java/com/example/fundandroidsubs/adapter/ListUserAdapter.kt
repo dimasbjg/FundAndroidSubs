@@ -1,4 +1,4 @@
-package com.example.fundandroidsubs
+package com.example.fundandroidsubs.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -6,11 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.fundandroidsubs.DetailUserActivity
+import com.example.fundandroidsubs.R
+import com.example.fundandroidsubs.entity.User
 import com.example.fundandroidsubs.databinding.ItemUserBinding
 
 class ListUserAdapter: RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
 
-    private val mData = ArrayList<User>()
+    var mData = ArrayList<User>()
 
     fun setData(items: ArrayList<User>) {
         mData.clear()
@@ -29,7 +32,7 @@ class ListUserAdapter: RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
             Glide.with(itemView.context)
                 .load(user.avatar)
                 .into(binding.imgUser)
-            return return User(
+            return User(
                 user.username,
                 user.avatar
             )

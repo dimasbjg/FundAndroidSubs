@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fundandroidsubs.adapter.ListUserAdapter
 import com.example.fundandroidsubs.databinding.FragmentFollowerBinding
 
 class FollowerFragment : Fragment() {

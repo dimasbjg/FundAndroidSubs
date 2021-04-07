@@ -4,22 +4,24 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import android.util.Log
 import com.example.fundandroidsubs.db.DatabaseContract.UserColumns.Companion.COLUMN_NAME_USERNAME
 import com.example.fundandroidsubs.db.DatabaseContract.UserColumns.Companion.TABLE_NAME
 import java.sql.SQLException
 
 class UserHelper(context: Context) {
 
+    private var databaseHelper: DatabaseHelper = DatabaseHelper(context)
+    private lateinit var database: SQLiteDatabase
+
     companion object {
         private const val DATABASE_TABLE = TABLE_NAME
-        private lateinit var databaseHelper: DatabaseHelper
         private var INSTANCE: UserHelper? = null
         fun getnInstance(context: Context): UserHelper =
             INSTANCE ?: synchronized(this) {
                 INSTANCE ?: UserHelper(context)
             }
 
-        private lateinit var database: SQLiteDatabase
     }
 
     @Throws(SQLException::class)
@@ -33,10 +35,6 @@ class UserHelper(context: Context) {
         if (database.isOpen) {
             database.close()
         }
-    }
-
-    init {
-        databaseHelper = DatabaseHelper(context)
     }
 
     //CRUD
@@ -67,6 +65,7 @@ class UserHelper(context: Context) {
     }
 
     fun deleteByUsername(username: String): Int {
+        Log.d("username" , username)
         return database.delete(DATABASE_TABLE, "$COLUMN_NAME_USERNAME = '$username'", null)
     }
 
