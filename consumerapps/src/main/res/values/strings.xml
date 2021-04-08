@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Consumer Apps</string>
+    <string name="github_user_app">Github User App</string>
+    <string name="username">Username</string>
+    <string name="name">Name</string>
+    <string name="share">Share</string>
+    <string name="search">Search</string>
+    <string name="tab_text_1">Follower</string>
+    <string name="tab_text_2">Following</string>
+    <string name="no_company">No company</string>
+    <string name="github_user">GitHub User</string>
+    <string name="location">Location</string>
+    <string name="repositories">Repositories</string>
+    <string name="company">Company</string>
+    <string name="follower">follower</string>
+    <string name="following">following</string>
+    <string name="favorite_button">favorite button</string>
+    <string name="home">Home</string>
+    <string name="my_favorites">My Favorites</string>
+    <string name="setting">Setting</string>
+    <string name="reminder">Reminder 09:00 AM</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
+</resources>

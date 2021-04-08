@@ -18,5 +18,8 @@
     <string name="home">Home</string>
     <string name="my_favorites">My Favorites</string>
     <string name="setting">Setting</string>
+    <string name="reminder">Reminder 09:00 AM</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
 
 </resources>

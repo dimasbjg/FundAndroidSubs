@@ -23,7 +23,7 @@ class UserProvider : ContentProvider() {
         init {
             sUriMatcher.addURI(AUTHORITY, TABLE_NAME, USER)
 
-            sUriMatcher.addURI(AUTHORITY, "$TABLE_NAME/#", USER_ID)
+            sUriMatcher.addURI(AUTHORITY, "$TABLE_NAME/*", USER_ID)
         }
 
 

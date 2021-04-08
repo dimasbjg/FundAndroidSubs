@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.fundandroidsubs.DetailUserActivity
+import com.example.fundandroidsubs.ui.DetailUserActivity
 import com.example.fundandroidsubs.R
 import com.example.fundandroidsubs.entity.User
 import com.example.fundandroidsubs.databinding.ItemUserBinding

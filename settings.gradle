@@ -1,2 +1,3 @@
+include ':consumerapps'
 include ':app'
 rootProject.name = "Fund Android Subs"
